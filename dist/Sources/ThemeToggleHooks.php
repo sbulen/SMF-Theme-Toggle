@@ -72,7 +72,7 @@ function theme_toggle_buttons(&$buttons)
 		'title' => $txt['themetog_name_short'],
 		'icon' => 'tt_sun_moon.svg',
 		'href' => $scripturl . '?action=themetog',
-	    'onclick' => 'return theme_toggle();',
+		'onclick' => 'return theme_toggle();',
 		'show' => true
 	);
 }

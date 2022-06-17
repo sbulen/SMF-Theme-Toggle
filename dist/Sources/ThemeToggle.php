@@ -144,6 +144,8 @@ function theme_toggle()
 /**
  * Theme Toggle - action.  Primary action called for the themetog - http version.
  *
+ * Note the theme itself was updated earlier when setting $user_info.  Just redirect.
+ *
  * Action: themetog
  *
  * @return null
