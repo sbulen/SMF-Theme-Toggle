@@ -2,7 +2,7 @@
 
 The SMF Theme Toggle mod lets you easily toggle between the forum default theme and an admin-designated secondary theme with a single click.
 
-This mod works with any theme that allows new entries in the main menu.
+This mod works with any theme that allows new entries in the main & profile menus.
 
 This mod works whether or not javascript is enabled on the client.
 

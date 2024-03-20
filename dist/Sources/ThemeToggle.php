@@ -84,9 +84,12 @@ function theme_toggle_select()
 		// Setup the data entry form
 		$context['settings_title'] = $txt['themetog_settings'];
 		$config_vars = array(
-			array('select', 
-				'themetog_second_theme', 
+			array('select',
+				'themetog_second_theme',
 				$theme_array
+			),
+			array('check',
+				'themetog_profile_menu',
 			),
 		);
 

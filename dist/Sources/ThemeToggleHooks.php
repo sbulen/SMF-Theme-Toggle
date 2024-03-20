@@ -44,6 +44,10 @@ function theme_toggle_buttons(&$buttons)
 	if (isset($_REQUEST['area']) && ($_REQUEST['area'] == 'alerts_popup'))
 		return;
 
+	// If using the profile menu, bail...
+	if (!empty($modSettings['themetog_profile_menu']))
+		return;
+
 	// If no setting, bail...
 	if (empty($modSettings['themetog_second_theme']))
 		return;
@@ -70,11 +74,115 @@ function theme_toggle_buttons(&$buttons)
 
 	$buttons['themetog'] = array(
 		'title' => $txt['themetog_name_short'],
-		'icon' => 'tt_sun_moon.svg',
+		'icon' => 'tt_sun_moon.png',
 		'href' => $scripturl . '?action=themetog',
 		'onclick' => 'return theme_toggle();',
 		'show' => true
 	);
+}
+
+/**
+ *
+ * Hook function - Add the theme toggle button to the profile popup menu part 1 of 2.
+ *
+ * Hook: integrate_profile_areas
+ *
+ * @param array $profile_areas
+ * @return null
+ *
+ */
+function theme_toggle_buttons_profarea(&$profile_areas)
+{
+	global $txt, $user_info, $scripturl, $modSettings;
+
+	// First off, ignore any alert popup actions.
+	if (isset($_REQUEST['area']) && ($_REQUEST['area'] == 'alerts_popup'))
+		return;
+
+	// If using the main menu, bail...
+	if (empty($modSettings['themetog_profile_menu']))
+		return;
+
+	// If no setting, bail...
+	if (empty($modSettings['themetog_second_theme']))
+		return;
+
+	// Not for guests
+	if (!empty($user_info['is_guest']))
+		return;
+
+	// Terminology is weird - the guest theme is the default theme
+	// If they were somehow set the same, uh, nothing to do...
+	if ($modSettings['themetog_second_theme'] == $modSettings['theme_guests'])
+		return;
+
+	// Users must be allowed to select themes
+	if (empty($modSettings['theme_allow']))
+		return;
+
+	// Add to the main menu.
+	// Note that, like Logoff, this isn't actually displayed in the main menu, only the popup.
+	loadLanguage('ThemeToggle');
+
+	$profile_areas['profile_action']['areas']['themetog'] =
+		array(
+			'label' => $txt['themetog_name_short'],
+			'custom_url' => $scripturl . '?action=themetog',
+			'icon' => 'switch',
+			'enabled' => !empty($_REQUEST['area']) && $_REQUEST['area'] === 'popup',
+			'permission' => array(
+				'own' => array('is_not_guest'),
+				'any' => array(),
+				),
+		);
+}
+
+/**
+ *
+ * Hook function - Add the theme toggle button to the profile popup menu part 2 of 2.
+ *
+ * Hook: integrate_profile_popup
+ *
+ * @param array $profile_items
+ * @return null
+ *
+ */
+function theme_toggle_buttons_profpop(&$profile_items)
+{
+	global $txt, $user_info, $scripturl, $modSettings;
+
+	// First off, ignore any alert popup actions.
+	if (isset($_REQUEST['area']) && ($_REQUEST['area'] == 'alerts_popup'))
+		return;
+
+	// If using the main menu, bail...
+	if (empty($modSettings['themetog_profile_menu']))
+		return;
+
+	// If no setting, bail...
+	if (empty($modSettings['themetog_second_theme']))
+		return;
+
+	// Not for guests
+	if (!empty($user_info['is_guest']))
+		return;
+
+	// Terminology is weird - the guest theme is the default theme
+	// If they were somehow set the same, uh, nothing to do...
+	if ($modSettings['themetog_second_theme'] == $modSettings['theme_guests'])
+		return;
+
+	// Users must be allowed to select themes
+	if (empty($modSettings['theme_allow']))
+		return;
+
+	// Add the theme swap entry 2nd to last
+	$new = 
+		array(array(
+			'menu' => 'profile_action',
+			'area' => 'themetog',
+		));
+	array_splice($profile_items, count($profile_items) - 1, 0, $new);
 }
 
 /**
