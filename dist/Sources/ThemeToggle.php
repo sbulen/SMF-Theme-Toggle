@@ -148,6 +148,7 @@ function theme_toggle()
  * Theme Toggle - action.  Primary action called for the themetog - http version.
  *
  * Note the theme itself was updated earlier when setting $user_info.  Just redirect.
+ * Note also that this is used when the profile menu option is used.
  *
  * Action: themetog
  *
@@ -158,7 +159,10 @@ function theme_toggle_http()
 {
 	global $boardurl;
 
-	if (!empty($_SESSION['old_url']))
+	// If the user clicks on the profile menu link multiple times in rapid succession, the old_url invokes the
+	// themetog action on subsequent execs.  This is bad, because it can create a loop, continuously redirecting here.
+	// Test for that to prevent such a loop.  If a user double-clicks, they are now brought to the home page.
+	if (!empty($_SESSION['old_url']) && !str_contains($_SESSION['old_url'], 'action=themetog'))
 		redirectexit($_SESSION['old_url']);
 	else
 		redirectexit($boardurl);
