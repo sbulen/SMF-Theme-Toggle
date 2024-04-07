@@ -2,7 +2,7 @@
 /**
  *	Logic for the Theme Toggle mod hooks.
  *
- *	Copyright 2022 Shawn Bulen
+ *	Copyright 2022-2024 Shawn Bulen
  *
  *	The Theme Toggle mod is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
